@@ -24,3 +24,7 @@ bwa index 작업 필요 </br>
 # command line 
 $ python3 vcf_genome.py [SRR_ID] [ref file location] </br>
 $ python3 vcf_genome_test.py [SRR_ID] [ref_file_location] [vcf_grep_loacation]
+
+# test vcf.grep files
+
+https://drive.google.com/drive/folders/1EVvClvQZ0wYHQ2S_5M5Od-nRPuK1IKye?usp=sharing
