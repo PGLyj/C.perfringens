@@ -18,7 +18,7 @@ sklearn 0.19.2 </br>
 pandas 0.22.0 </br>
 
 # reference files
-Phytozome v12.1(Gmax_275_v2.0.fa) https://phytozome.jgi.doe.gov/pz/portal.html#
+Phytozome v12.1(Gmax_275_v2.0.fa) https://phytozome.jgi.doe.gov/pz/portal.html# </br>
 bwa index 작업 필요 </br>
 
 # command line 
