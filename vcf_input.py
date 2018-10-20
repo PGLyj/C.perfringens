@@ -15,10 +15,10 @@ from selenium.webdriver.support import expected_conditions as EC
 #ID 받는 부분
 SRR_ID = sys.argv[1]
 ref_location = sys.argv[2]
-vcf_grep_location = sys.argv[3]
+vcf_location = sys.argv[3]
 
 #vcf
-#os.system('zcat ./vcf_files/%s.vcf.gz | grep -v \'##\' > ./vcf_files/%s.vcf.grep'%(SRR_ID,SRR_ID))
+os.system('zcat %s | grep -v \'##\' > ./%s.vcf.grep'%(vcf_location,SRR_ID))
 
 #web scrap
 options = Options()
@@ -41,7 +41,7 @@ except IndexError:
 
 #data arrange
 
-ncbi_sample = pd.read_csv('%s'%vcf_grep_location, sep = '\t')
+ncbi_sample = pd.read_csv('./%s.vcf.grep'%SRR_ID, sep = '\t')
 
 m_snp = ncbi_sample['INFO'].apply(lambda x : x.split(';')[0] != 'INDEL')
 ncbi_sample_snp = ncbi_sample[m_snp]
