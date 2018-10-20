@@ -85,6 +85,7 @@ ncbi_gt_mat = pd.DataFrame(gt_list, index=pos, columns=[col_name])
 #selected_pos = standard_mat['pos'].values
 #dic_fill = dict(zip(standard_mat['pos'],standard_mat['Gmax_275_ref']))
 dic_fill = pickle.load(open("./pk_files/pos_ref.pk", "rb"))
+selected_pos = np.array(list(dic_fill.keys()))
 df_ncbi_gt_mat_selected = ncbi_gt_mat.loc[selected_pos].T.fillna(value=dic_fill).T
 
 #gt 수치화 작업
