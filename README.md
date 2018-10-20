@@ -18,4 +18,5 @@ pandas 0.22.0 </br>
 Pythozomev12.1(Gmax_275_v2.0.fa)
 
 # command line 
-$ python3 vcf_genome.py [SRR_ID] [ref file location]
+$ python3 vcf_genome.py [SRR_ID] [ref file location] </br>
+$ python3 vcf_genome_test.py [SRR_ID] [ref_file_location] [vcf_grep_loacation]
