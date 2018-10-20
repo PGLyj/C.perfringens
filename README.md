@@ -28,3 +28,4 @@ $ python3 vcf_genome_test.py [SRR_ID] [ref_file_location] [vcf_grep_loacation]
 # test vcf.grep files
 
 https://drive.google.com/drive/folders/1EVvClvQZ0wYHQ2S_5M5Od-nRPuK1IKye?usp=sharing
+list : SRR2206271.vcf.grep SRR5479886.vcf.grep SRR5479930.vcf.grep
