@@ -10,7 +10,7 @@ from sklearn.externals import joblib
 
 #ID 받는 부분
 Cultivar = sys.argv[1]
-vcf_location = sys.argv[1]
+vcf_location = sys.argv[2]
 
 #vcf
 os.system('zcat %s | grep -v \'##\' > ./%s.vcf.grep'%(vcf_location,Cultivar))
