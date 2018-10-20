@@ -23,7 +23,7 @@ bwa index 작업 필요 </br>
 
 # command line 
 $ python3 vcf_genome.py [SRR_ID] [ref file location] </br>
-$ python3 vcf_input.py [Cultivar] [vcf_loacation]
+$ python3 vcf_input.py [Cultivar] [vcf_location]
 
 # test vcf files
 
