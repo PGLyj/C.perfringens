@@ -25,11 +25,10 @@ bwa index 작업 필요 </br>
 $ python3 vcf_genome.py [SRR_ID] [ref file location] </br>
 $ python3 vcf_input.py [Cultivar] [vcf_loacation]
 
-# test vcf.grep files
+# test vcf files
 
 https://drive.google.com/drive/folders/1EVvClvQZ0wYHQ2S_5M5Od-nRPuK1IKye?usp=sharing </br>
 
 file_list : 
-1. SRR2206271.vcf.gz 
-2. SRR5479886.vcf.gz 
-3. SRR5479930.vcf.gz
+1. SRR2206271.vcf.gz | Santa Rosa
+2. SRR5479930.vcf.gz | WJK-PRC-46
