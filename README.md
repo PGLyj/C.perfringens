@@ -1,6 +1,8 @@
 # Soybean_WGS_Collection Pipeline
 k-genome pipeline submission </br>
 
+
+
 # dependency
 
 aspera fastq-dump 2.9.2 -SRATOOLS </br>
