@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/static/semantic/semantic.css">
+        <meta charset="utf-8">
+        <meta name="description" content="Hierarchical Clustering" />
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+        <script src="//wafi.iit.cnr.it/webvis/tmp/clusterfck.js"></script>
+        <script src="//wafi.iit.cnr.it/webvis/libs/jigmaps/zip.js"></script>
+        <script src="//wafi.iit.cnr.it/webvis/libs/jigmaps/tree_utils.js"></script>
+        <script
+               src="https://code.jquery.com/jquery-3.1.1.min.js"
+               integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+               crossorigin="anonymous"></script>
+        <script src="/static/semantic/semantic.min.js"></script>
+  <style>
+    body{padding: 1rem}
+  </style>
+  <title>K-genome Pipeline</title>
+</head>
+<style type="text/css">
+svg {
+  background: white;
+}
+.left-aligned-container {
+  float: left;
+}
+.link {
+  fill: none;
+  stroke: #BBB;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.node {
+  shape-rendering: crispEdges;
+}</style>
+<body>
+  <h1>Soybean germplasm genotype tree</h1>
+  <div class="ui grid">
+    <div class="four wide column">
+      <h3>Data sources</h3>
+      <div class="ui bulleted list">
+        <div class="item">NCBI SRA (https://www.ncbi.nlm.nih.gov/sra)</div>
+        <div class="item">Korean soybase (http://koreansoyabase.org/)</div>
+        <div class="item">Soybase (https://soybase.org/)</div>
+      </div>
+    </div>
+    <div class="four wide column">
+      <h3>Updated genotype matrix</h3>
+      <div class="ui bulleted list">
+        <div class="item">New update 2018.10.19 <a href="/static/pca.2018.10.19.csv">Matrix download</a> </div>
+      </div>
+    </div>
+  </div>
+  <p><p>
+  <div class='ui left-aligned-container' id='tree'>
+    <h3> Hierarchical clustering tree with updated genotype matrix</h3>
+  </div>
+</body>
+
+<script type="text/javascript">
+
+ // here, import your pca data id= SRRID, value= number of pca data
+
+ d3.csv("/static/{{csvf}}", function(d) {
+  return {
+    id: d.index, value: [d['0'],d['1'],d['2'],d['3'],d['4'],d['5'],d['6'],d['7'],d['8'],d['9'],d['10'],d['11'],d['12'],d['13'],d['14'],d['15'],d['16'],d['17'],d['18'],d['19']]
+ };
+}, function(data) {
+
+        var numValues =data.length
+        dataset =[];
+        for (var i = 0; i< numValues; i++){
+          dataset.push(data[i].value)}
+
+        dataset2 =[];
+        for (var i = 0; i< numValues; i++){
+          dataset2.push(data[i].id)}
+
+
+var fullwidth = data.length *5
+var newheight = data.length *20
+var newwidth = data.length *15
+
+
+ svg = d3.select('#tree').append('svg').attr('width',fullwidth).attr('height',newheight);
+ svg.attr({
+    viewBox: "" + (100) + " " + (100 ) + " " + fullwidth + " " + newheight
+  });
+
+
+//cluster analysis
+
+  clusters = clusterfck.hcluster(dataset, clusterfck.EUCLIDEAN_DISTANCE, clusterfck.SINGLE_LINKAGE);
+
+  tree = tree_utils.binary_to_std(clusters);
+
+  tree_a = _.cloneDeep(tree);
+
+
+
+
+//cluster layout
+  cluster_layout = d3.layout.cluster().size([newwidth, 600]).separation(function(d) {
+    return 1;
+  });
+  nodes_a = cluster_layout.nodes(tree_a);
+  links_a = cluster_layout.links(nodes_a);
+  result_a = svg.append('g').attr('class','ui buttons')
+  result_a.attr('transform', function(d) {
+   return "translate(" + 250 + "," +(data.length*15.695) + ")"+ "rotate("+270+")";
+  })
+
+  result_a.selectAll('.link')
+  .data(links_a)
+  .enter()
+  .append('path')
+  .attr('class', 'link')
+  .attr('d', function(l) {
+    return "M" + l.source.x + " " + l.source.y + " L" + l.target.x + " " + l.source.y + " L" + l.target.x + " " + l.target.y;
+  });
+
+//find SRRID index
+
+ var dd = nodes_a.map(function(n) {return n.value  ;})
+ let a = [ {f1: 1, f2: 2}, {f1: 3, f2: 4} ]
+  function cleanArray(a, removeNull) {
+        var i, l, temp = [];
+        l = a.length;
+        if (removeNull) {
+            for (i = 0; i < l; i++) {
+                if (a[i] !== undefined && a[i] !== null) {
+                    temp.push(a[i]);
+                }
+            }
+        } else {
+            for (i = 0; i < l; i++) {
+                if (a[i] !== undefined) {
+                    temp.push(a[i]);
+                }
+            }
+        }
+        a.length = 0;
+        l = temp.length;
+        for (i = 0; i < l; i++) {
+            a[i] = temp[i];
+        }
+        temp.length = 0;
+        return a;
+    }
+   cleanArray(dd);
+
+
+ indexdata=[]
+ for(var i=0 ; i < data.length; i++){for(var j=0; j < data.length; j++){
+          if(dataset[i][0] == dd[j][0]){
+            console.log(j)
+            indexdata.push(j)
+            break;
+        }
+      }
+    }
+
+//add SRRID
+ var difficult=result_a.selectAll('.node')
+   .data(nodes_a.filter(function(n) {
+     return n.children == null ;  }))
+   .enter().append('text').attr('class', 'node').attr('x', -4).attr('y', -5).attr('width', 8).attr('height', 24)
+   .attr('transform', function(d) {
+     return "translate(" + d.x + "," + d.y + ")";   })
+   .attr('transform', function(d) {
+     return "translate(" + d.x + "," +( d.y+10) + ")"+ "rotate("+90+")";    })
+   .text(function(d,i){return dataset2[indexdata[i]]    })
+
+
+difficult.attr('class', 'ui button')
+
+
+
+});
+
+
+
+    </script>
+
+
+</html>
