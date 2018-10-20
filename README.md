@@ -18,7 +18,7 @@ sklearn 0.19.2 </br>
 pandas 0.22.0 </br>
 
 # reference files
-Pythozomev12.1(Gmax_275_v2.0.fa)</br>
+Phytozome v12.1(Gmax_275_v2.0.fa) https://phytozome.jgi.doe.gov/pz/portal.html#
 bwa index 작업 필요 </br>
 
 # command line 
@@ -29,6 +29,6 @@ $ python3 vcf_genome_test.py [SRR_ID] [ref_file_location] [vcf_grep_loacation]
 
 https://drive.google.com/drive/folders/1EVvClvQZ0wYHQ2S_5M5Od-nRPuK1IKye?usp=sharing </br>
 file_list : 
-1. SRR2206271.vcf.grep 
-2. SRR5479886.vcf.grep 
-3. SRR5479930.vcf.grep
+1. SRR2206271.vcf.gz 
+2. SRR5479886.vcf.gz 
+3. SRR5479930.vcf.gz
