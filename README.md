@@ -15,7 +15,8 @@ sklearn 0.19.2 </br>
 pandas 0.22.0 </br>
 
 # reference files
-Pythozomev12.1(Gmax_275_v2.0.fa)
+Pythozomev12.1(Gmax_275_v2.0.fa)</br>
+bwa index 작업 필요 </br>
 
 # command line 
 $ python3 vcf_genome.py [SRR_ID] [ref file location] </br>
