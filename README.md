@@ -30,5 +30,5 @@ $ python3 vcf_input.py [Cultivar] [vcf_location]
 https://drive.google.com/drive/folders/1EVvClvQZ0wYHQ2S_5M5Od-nRPuK1IKye?usp=sharing </br>
 
 file_list : 
-1. SRR2206271.vcf.gz | Santa Rosa
+1. SRR2206271.vcf.gz | Santa_Rosa
 2. SRR5479930.vcf.gz | WJK-PRC-46
