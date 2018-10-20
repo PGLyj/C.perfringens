@@ -6,42 +6,18 @@ import pickle
 from functools import reduce
 from sklearn.decomposition import PCA
 from sklearn.externals import joblib
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 #ID 받는 부분
-SRR_ID = sys.argv[1]
-ref_location = sys.argv[2]
-vcf_location = sys.argv[3]
+Cultivar = sys.argv[1]
+vcf_location = sys.argv[1]
 
 #vcf
-os.system('zcat %s | grep -v \'##\' > ./%s.vcf.grep'%(vcf_location,SRR_ID))
-
-#web scrap
-options = Options()
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-
-driver = webdriver.Chrome(executable_path='/bin/chromedriver', chrome_options=options)
-driver.get('https://trace.ncbi.nlm.nih.gov/Traces/study/?acc=' + SRR_ID)
-element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="id-common-fields"]/div/div[27]/em')))
-
-try:
-    div_selector = driver.find_element_by_css_selector('div').text
-    cultivar = div_selector.split('cultivar')[1].split('\n')[1]
-    col_name = cultivar
-except IndexError:
-    col_name = SRR_ID
+os.system('zcat %s | grep -v \'##\' > ./%s.vcf.grep'%(vcf_location,Cultivar))
 
 #data arrange
 
-ncbi_sample = pd.read_csv('./%s.vcf.grep'%SRR_ID, sep = '\t')
+ncbi_sample = pd.read_csv('./%s.vcf.grep'%Cultivar, sep = '\t')
 
 m_snp = ncbi_sample['INFO'].apply(lambda x : x.split(';')[0] != 'INDEL')
 ncbi_sample_snp = ncbi_sample[m_snp]
@@ -64,7 +40,7 @@ gt_list = np.stack(gt_list)
 
 #pos 지정 => index 맞추기 작업
 pos = np.add(np.add(ncbi_sample_snp['#CHROM'],'_'),ncbi_sample_snp['POS'].astype(str)).values
-ncbi_gt_mat = pd.DataFrame(gt_list, index=pos, columns=[col_name])
+ncbi_gt_mat = pd.DataFrame(gt_list, index=pos, columns=[Cultivar])
 
 
 #standard_mat = pd.read_csv('./Kor_Soybean.csv')
@@ -88,13 +64,13 @@ df_ncbi_vec = pd.DataFrame(ncbi_seq_vec, columns=df_ncbi_gt_mat_selected.columns
 #pca 
 pca = joblib.load('./pk_files/vcf2genome.pca.pkl')
 add_data = pca.transform(df_ncbi_vec.T)
-add_mat = pd.DataFrame(add_data, index= [col_name])
+add_mat = pd.DataFrame(add_data, index= [Cultivar])
 add_mat.columns = [str(x) for x in add_mat.columns]
 add_mat = add_mat.reset_index()
 
 #matrix 병합
 pre_mat_pca = pd.read_pickle('./pk_files/standard_pca_mat.pk')
-add_mat.to_pickle('./mat_list/%s.pk'%SRR_ID)
+add_mat.to_pickle('./mat_list/%s.pk'%Cultivar)
 matrix_list = glob.glob('./mat_list/*')
 df_list = [pd.read_pickle(x) for x in matrix_list]
 add_total_mat = reduce(lambda a,b : a.append(b), df_list)
