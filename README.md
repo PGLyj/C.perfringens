@@ -16,6 +16,7 @@ numpy -1.15.2 </br>
 CHROMEDRIVER 2.43 linux 64 </br>
 sklearn 0.19.2 </br>
 pandas 0.22.0 </br>
+django 
 
 # reference files
 Phytozome v12.1(Gmax_275_v2.0.fa) https://phytozome.jgi.doe.gov/pz/portal.html# </br>
